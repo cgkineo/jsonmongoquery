@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongodb-query';
+import { queryToPredicate } from 'json-mongo-query';
 
 const data = [
   {

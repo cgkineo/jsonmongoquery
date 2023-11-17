@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongodb-query';
+import { queryToPredicate } from 'json-mongo-query';
 
 const data = [
   {
@@ -35,5 +35,8 @@ test('$ne dot notation', () => {
 test('$ne missing dot notation', () => {
   const predicate = queryToPredicate({ 'carrier.fee.none': { $ne: 1 } });
   const result = data.filter(predicate);
-  expect(result).toHaveLength(0);
+  expect(result).toHaveLength(3);
+  expect(result[0]?.item).toBe('nuts');
+  expect(result[1]?.item).toBe('bolts');
+  expect(result[2]?.item).toBe('washers');
 })
