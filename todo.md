@@ -1,8 +1,12 @@
 ### Tests
-[all update operators]
+addToSet
+each
+ush
 
 ### Operators
-[all update operators]
+$addToSet
+each
+push
 
 ### Other
 * check predicate factory parameters queryPart, parentPath, path, parentQueryPart

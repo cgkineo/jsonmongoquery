@@ -12,9 +12,14 @@ const data1 = [
   }
 ]
 
+function clone(json) {
+  return JSON.parse(JSON.stringify(json));
+}
+
 test('$set top level fields', () => {
+  const data = clone(data1);
   const predicate = queryToPredicate({ _id: 100 });
-  const result = data1.filter(predicate);
+  const result = data.filter(predicate);
   const updater = queryToPredicate({
     $set: {
       quantity: 500,
@@ -31,8 +36,9 @@ test('$set top level fields', () => {
 });
 
 test('$set fields in embedded documents', () => {
+  const data = clone(data1);
   const predicate = queryToPredicate({ _id: 100 });
-  const result = data1.filter(predicate);
+  const result = data.filter(predicate);
   const updater = queryToPredicate({
     $set: { "details.make": "Kustom Kidz" }
   });
@@ -42,8 +48,9 @@ test('$set fields in embedded documents', () => {
 });
 
 test('$set elements in arrays', () => {
+  const data = clone(data1);
   const predicate = queryToPredicate({ _id: 100 });
-  const result = data1.filter(predicate);
+  const result = data.filter(predicate);
   const updater = queryToPredicate({
     $set:
       {
@@ -55,4 +62,66 @@ test('$set elements in arrays', () => {
   expect(updated).toHaveLength(1);
   expect(updated[0]?.tags[1]).toBe("rain gear");
   expect(updated[0]?.ratings[0].rating).toBe(2);
+});
+
+test('$set create dot notation', () => {
+  const data = clone(data1);
+  const predicate = queryToPredicate({ _id: 100 });
+  const result = data.filter(predicate);
+  const updater = queryToPredicate({
+    $set:
+      {
+        "missing.0.newfield": "test",
+      }
+  });
+  const updated = result.filter(updater);
+  expect(updated).toHaveLength(1);
+  expect(updated[0]?.missing).toBeInstanceOf(Object);
+  expect(updated[0]?.missing[0]).toBeInstanceOf(Object);
+  expect(updated[0]?.missing[0].newfield).toBe("test");
+});
+
+test('$set create dot notation 2', () => {
+  const data = clone(data1);
+  const predicate = queryToPredicate({ _id: 100 });
+  const result = data.filter(predicate);
+  const updater = queryToPredicate({
+    $set:
+      {
+        "tags.2.name": "test"
+      }
+  });
+  const updated = result.filter(updater);
+  expect(updated).toHaveLength(1);
+  expect(updated[0]?.tags).toBeInstanceOf(Array);
+  expect(updated[0]?.tags[2].name).toBe("test");
+});
+
+test('$set create dot notation update embedded documents', () => {
+  const data = clone(data1);
+  const predicate = queryToPredicate({ _id: 100 });
+  const result = data.filter(predicate);
+  const updater = queryToPredicate({
+    $set:
+      {
+        "ratings.$[].name": "test",
+      }
+  });
+  const updated = result.filter(updater);
+  expect(updated).toHaveLength(1);
+  expect(updated[0]?.ratings[0].name).toBe("test");
+});
+
+test('$set create dot notation missed array', () => {
+  const data = clone(data1);
+  const predicate = queryToPredicate({ _id: 100 });
+  const result = data.filter(predicate);
+  const updater = queryToPredicate({
+    $set:
+      {
+        "details.$[].name": "test",
+      }
+  });
+  const updated = result.filter(updater);
+  expect(updated).toHaveLength(1);
 });

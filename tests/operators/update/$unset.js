@@ -1,9 +1,9 @@
 import { queryToPredicate } from 'json-mongo-query';
 
 const data1 = [
-  { "item": "chisel", "sku": "C001", "quantity": 4, "instock": true },
-  { "item": "hammer", "sku": "unknown", "quantity": 3, "instock": true },
-  { "item": "nails", "sku": "unknown", "quantity": 100, "instock": true }
+  { "item": "chisel", "sku": "C001", "quantity": 4, "instock": true, ratings: [ { by: "Customer007", rating: 4 } ] },
+  { "item": "hammer", "sku": "unknown", "quantity": 3, "instock": true, ratings: [ { by: "Customer007", rating: 4 } ] },
+  { "item": "nails", "sku": "unknown", "quantity": 100, "instock": true, ratings: [ { by: "Customer007", rating: 4 } ] }
 ]
 
 test('$unset top level fields', () => {
@@ -20,5 +20,26 @@ test('$unset top level fields', () => {
   expect(updated[1]).not.toHaveProperty('instock');
 });
 
-// todo: $[]
-// todo: nested array bits
+test('$unset dot notation update embedded documents', () => {
+  const updater = queryToPredicate({
+    $unset:
+      {
+        "ratings.$[].by": "",
+      }
+  });
+  const updated = data1.filter(updater);
+  expect(updated).toHaveLength(3);
+  expect(updated[0]?.ratings[0].by).toBeUndefined();
+});
+
+test('$unset dot notation missing field', () => {
+  const updater = queryToPredicate({
+    $unset:
+      {
+        "ratings.$[].none": "",
+      }
+  });
+  const updated = data1.filter(updater);
+  expect(updated).toHaveLength(3);
+  expect(updated[0]?.ratings[0].none).toBeUndefined();
+});
