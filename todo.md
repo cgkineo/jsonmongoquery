@@ -1,11 +1,7 @@
 ### Tests
+paths
+sort
 addToSet
-each
-ush
-
-### Operators
-$addToSet
-each
 push
 
 ### Other
