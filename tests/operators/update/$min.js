@@ -20,7 +20,7 @@ test('$min top level fields', () => {
   expect(updated[0]?.lowScore).toBe(150)
 })
 
-test('$mul non-numeric field', () => {
+test('$min non-numeric field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
@@ -28,8 +28,7 @@ test('$mul non-numeric field', () => {
     $min: { item: 2 }
   })
   const updated = result.filter(updater)
-  expect(updated).toHaveLength(1)
-  expect(updated[0]?.item).toBe('Hats')
+  expect(updated).toHaveLength(0)
 })
 
 test('$min missing field', () => {

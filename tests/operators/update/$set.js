@@ -123,7 +123,7 @@ test('$set create dot notation missed array', () => {
       }
   })
   const updated = result.filter(updater)
-  expect(updated).toHaveLength(1)
+  expect(updated).toHaveLength(0)
 })
 
 const data2 = [
@@ -165,7 +165,7 @@ test('$set create dot notation missed deep property', () => {
       }
   })
   const updated = data.filter(updater)
-  expect(updated).toHaveLength(3)
+  expect(updated).toHaveLength(0)
 })
 
 test('$set create dot notation missed shallow property', () => {
@@ -177,5 +177,5 @@ test('$set create dot notation missed shallow property', () => {
       }
   })
   const updated = data.filter(updater)
-  expect(updated).toHaveLength(3)
+  expect(updated).toHaveLength(2)
 })

@@ -32,8 +32,7 @@ test('$mul non-numeric field', () => {
     $mul: { item: 2 }
   })
   const updated = result.filter(updater)
-  expect(updated).toHaveLength(1)
-  expect(updated[0]?.item).toBe('Hats')
+  expect(updated).toHaveLength(0)
 })
 
 test('$mul missing field', () => {

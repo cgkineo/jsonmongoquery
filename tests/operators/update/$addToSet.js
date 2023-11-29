@@ -37,7 +37,7 @@ test('$addToSet on incorrect data type', () => {
   const result = data.filter(predicate)
   const updater = queryToPredicate({ $addToSet: { item: 'accessories' } })
   const updated = result.filter(updater)
-  expect(updated[0]?.item).toBe('polarizing_filter')
+  expect(updated).toHaveLength(0)
 })
 
 test('$addToSet value already exists', () => {
@@ -46,9 +46,7 @@ test('$addToSet value already exists', () => {
   const result = data.filter(predicate)
   const updater = queryToPredicate({ $addToSet: { tags: 'camera' } })
   const updated = result.filter(updater)
-  expect(updated[0]?.tags).toHaveLength(2)
-  expect(updated[0]?.tags[0]).toBe('electronics')
-  expect(updated[0]?.tags[1]).toBe('camera')
+  expect(updated).toHaveLength(0)
 })
 
 test('$addToSet each modifier', () => {

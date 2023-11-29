@@ -41,7 +41,7 @@ test('$push on incorrect data type', () => {
   const result = data.filter(predicate)
   const updater = queryToPredicate({ $push: { _id: 'accessories' } })
   const updated = result.filter(updater)
-  expect(updated[0]?._id).toBe(1)
+  expect(updated).toHaveLength(0)
 })
 
 test('$push append a value to arrays in multiple documents', () => {

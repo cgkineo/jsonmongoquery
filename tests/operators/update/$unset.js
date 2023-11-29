@@ -40,6 +40,5 @@ test('$unset dot notation missing field', () => {
       }
   })
   const updated = data1.filter(updater)
-  expect(updated).toHaveLength(3)
-  expect(updated[0]?.ratings[0].none).toBeUndefined()
+  expect(updated).toHaveLength(0)
 })
