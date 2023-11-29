@@ -25,6 +25,25 @@ test('$push append a value to an array', () => {
   expect(updated[0]?.scores[4]).toBe(89)
 })
 
+test('$push make new array', () => {
+  const data = clone(data1)
+  const predicate = queryToPredicate({ _id: 1 })
+  const result = data.filter(predicate)
+  const updater = queryToPredicate({ $push: { uscores: 'accessories' } })
+  const updated = result.filter(updater)
+  expect(updated[0]?.uscores).toHaveLength(1)
+  expect(updated[0]?.uscores[0]).toBe('accessories')
+})
+
+test('$push on incorrect data type', () => {
+  const data = clone(data1)
+  const predicate = queryToPredicate({ _id: 1 })
+  const result = data.filter(predicate)
+  const updater = queryToPredicate({ $push: { _id: 'accessories' } })
+  const updated = result.filter(updater)
+  expect(updated[0]?._id).toBe(1)
+})
+
 test('$push append a value to arrays in multiple documents', () => {
   const data = clone(data1)
   const updater = queryToPredicate({ $push: { scores: 95 } })
@@ -81,4 +100,47 @@ test('$push operator with multiple modifiers', () => {
   expect(updated[0]?.quizzes[0].wk).toBe(1)
   expect(updated[0]?.quizzes[1].wk).toBe(2)
   expect(updated[0]?.quizzes[2].wk).toBe(5)
+})
+
+test('$push operator with multiple modifiers 2', () => {
+  const data = clone(data2)
+  const predicate = queryToPredicate({ _id: 5 })
+  const result = data.filter(predicate)
+  const updater = queryToPredicate({
+    $push: {
+      quizzes: {
+        $each: [
+          { wk: 5, score: 8 },
+          { wk: 6, score: 7 },
+          { wk: 7, score: 6 }],
+        $sort: { score: -1 },
+        $slice: -3
+      }
+    }
+  })
+  const updated = result.filter(updater)
+  expect(updated[0]?.quizzes).toHaveLength(3)
+  expect(updated[0]?.quizzes[0].wk).toBe(4)
+  expect(updated[0]?.quizzes[1].wk).toBe(7)
+  expect(updated[0]?.quizzes[2].wk).toBe(3)
+})
+
+test('$push operator with multiple modifiers 3', () => {
+  const data = clone(data2)
+  const predicate = queryToPredicate({ _id: 5 })
+  const result = data.filter(predicate)
+  const updater = queryToPredicate({
+    $push: {
+      quizzes: {
+        $each: [
+          { wk: 5, score: 8 },
+          { wk: 6, score: 7 },
+          { wk: 7, score: 6 }],
+        $sort: { score: -1 },
+        $slice: 0
+      }
+    }
+  })
+  const updated = result.filter(updater)
+  expect(updated[0]?.quizzes).toHaveLength(0)
 })

@@ -31,7 +31,7 @@ test('$eq embedded documents explicit', () => {
   expect(result[0]?._id).toBe(1)
 })
 
-test('$eq embedded documents implicit', () => {
+test('$eq embedded dot notation', () => {
   const predicate = queryToPredicate({ 'item.name': 'ab' })
   const result = data1.filter(predicate)
   expect(result).toHaveLength(1)
@@ -125,4 +125,38 @@ test('$eq match on a regular expression 2', () => {
   const result = data3.filter(predicate)
   expect(result).toHaveLength(1)
   expect(result[0]?.company).toBeInstanceOf(RegExp)
+})
+
+const date = new Date('1971')
+const data4 = [
+  { _id: 1, date },
+  { _id: 2, date: new Date(Date.now()) }
+]
+
+test('$eq match on explicit date', () => {
+  const predicate = queryToPredicate({ date: { $eq: date } })
+  const result = data4.filter(predicate)
+  expect(result).toHaveLength(1)
+  expect(result[0]?.date).toBeInstanceOf(Date)
+})
+
+test('$eq match on implicite date', () => {
+  const predicate = queryToPredicate({ date })
+  const result = data4.filter(predicate)
+  expect(result).toHaveLength(1)
+  expect(result[0]?.date).toBeInstanceOf(Date)
+})
+
+const data5 = [
+  { _id: 1, item: { name: 'ab', code: '123' }, qty: 15, tags: 1 },
+  { _id: 2, item: { name: 'cd', code: '123' }, qty: 20, tags: ['B'] },
+  { _id: 3, item: { name: 'ij', code: '456' }, qty: 25, tags: ['A', 'B'] },
+  { _id: 4, item: { name: 'xy', code: '456' }, qty: 30, tags: ['B', 'A'] },
+  { _id: 5, item: { name: 'mn', code: '000' }, qty: 20, tags: [['A', 'B'], 'C'] }
+]
+
+test('$eq missing array $[]', () => {
+  const predicate = queryToPredicate({ 'tags.$[].name': 'ab' })
+  const result = data5.filter(predicate)
+  expect(result).toHaveLength(0)
 })

@@ -55,3 +55,38 @@ test('$sort array that are not documents', () => {
   expect(updated[0]?.tests[4]).toBe(89)
   expect(updated[0]?.tests[5]).toBe(89)
 })
+
+const data3 = [
+  { _id: 2, tests: [89, 70, 89, 50, "a", 91] }
+]
+
+test('$sort array that are not documents with type mismatch', () => {
+  const data = clone(data3)
+  const updater = queryToPredicate({
+    $push: { tests: { $each: [], $sort: 1 } }
+  })
+  const updated = data.filter(updater)
+  expect(updated[0].tests[5]).toBe('a');
+})
+
+
+const data4 = [
+  {
+    _id: 2,
+    tests: [
+      { number: 5, number2: 2, number3: 2 },
+      { number: 4, number2: 2, number3: 2 },
+      { number: 3, number2: 2, number3: 2 },
+      { number: 2, number2: 2, number3: 2 },
+      { number: 1, number2: 2, number3: 2 }
+    ]
+  }
+]
+
+test('$sort array of documents that are second order identical', () => {
+  const data = clone(data4)
+  const updater = queryToPredicate({
+    $push: { tests: { $each: [], $sort: { number: 1, number2: 1, number3: 1 } } }
+  })
+  data.filter(updater)
+})

@@ -125,3 +125,57 @@ test('$set create dot notation missed array', () => {
   const updated = result.filter(updater)
   expect(updated).toHaveLength(1)
 })
+
+const data2 = [
+  {
+    _id: 100,
+    quantity: 250,
+    instock: true,
+    reorder: false,
+    details: { model: '14QQ', make: 'Clothes Corp' },
+    tags: ['apparel', 'clothing'],
+    ratings: [{ by: 'Customer007', rating: 4 }]
+  },
+  {
+    _id: 200,
+    quantity: 250,
+    instock: true,
+    reorder: false,
+    details: { model: { part: '14QQ' }, make: 'Clothes Corp' },
+    tags: ['apparel', 'clothing'],
+    ratings: [{ by: 'Customer007', rating: 4 }]
+  },
+  {
+    _id: 200,
+    quantity: 250,
+    instock: true,
+    reorder: false,
+    details: { model: { part: '14QQ' }, make: 'Clothes Corp' },
+    tags: ['apparel', 'clothing'],
+    ratings: ['a', 'b']
+  }
+]
+
+test('$set create dot notation missed deep property', () => {
+  const data = clone(data2)
+  const updater = queryToPredicate({
+    $set:
+      {
+        'details.make.part.test': 'test'
+      }
+  })
+  const updated = data.filter(updater)
+  expect(updated).toHaveLength(3)
+})
+
+test('$set create dot notation missed shallow property', () => {
+  const data = clone(data2)
+  const updater = queryToPredicate({
+    $set:
+      {
+        'ratings.part.test': 'test'
+      }
+  })
+  const updated = data.filter(updater)
+  expect(updated).toHaveLength(3)
+})

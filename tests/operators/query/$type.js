@@ -46,14 +46,14 @@ test('$type embedded document', () => {
 
 test('$type unsupported', () => {
   expect(() => {
-    queryToPredicate({ tags: { $type: 'date' } })
-  }).toThrow('The date (9) data type is unsupported.')
+    queryToPredicate({ tags: { $type: 'symbol' } })
+  }).toThrow('The symbol (14) data type is unsupported.')
 })
 
 test('$type unsupported 1', () => {
   expect(() => {
-    queryToPredicate({ tags: { $type: ['date'] } })
-  }).toThrow('The date (9) data type is unsupported.')
+    queryToPredicate({ tags: { $type: ['symbol'] } })
+  }).toThrow('The symbol (14) data type is unsupported.')
 })
 
 test('$type invalid', () => {
@@ -66,4 +66,35 @@ test('$type invalid 1', () => {
   expect(() => {
     queryToPredicate({ tags: { $type: ['car'] } })
   }).toThrow('The car data type is unsupported.')
+})
+
+const data2 = [
+  { value: new Date() },
+  { value: undefined },
+  { value: 12 },
+  { value: false }
+]
+
+test('$type date', () => {
+  const predicate = queryToPredicate({ value: { $type: ['date'] } })
+  const result = data2.filter(predicate)
+  expect(result).toHaveLength(1)
+})
+
+test('$type undefined', () => {
+  const predicate = queryToPredicate({ value: { $type: ['undefined'] } })
+  const result = data2.filter(predicate)
+  expect(result).toHaveLength(1)
+})
+
+test('$type number', () => {
+  const predicate = queryToPredicate({ value: { $type: ['number'] } })
+  const result = data2.filter(predicate)
+  expect(result).toHaveLength(1)
+})
+
+test('$type boolean', () => {
+  const predicate = queryToPredicate({ value: { $type: ['boolean'] } })
+  const result = data2.filter(predicate)
+  expect(result).toHaveLength(1)
 })

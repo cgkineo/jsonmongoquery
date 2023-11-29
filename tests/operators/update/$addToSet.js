@@ -21,6 +21,25 @@ test('$addToSet add to array', () => {
   expect(updated[0]?.tags[2]).toBe('accessories')
 })
 
+test('$addToSet make new array', () => {
+  const data = clone(data1)
+  const predicate = queryToPredicate({ _id: 1 })
+  const result = data.filter(predicate)
+  const updater = queryToPredicate({ $addToSet: { utags: 'accessories' } })
+  const updated = result.filter(updater)
+  expect(updated[0]?.utags).toHaveLength(1)
+  expect(updated[0]?.utags[0]).toBe('accessories')
+})
+
+test('$addToSet on incorrect data type', () => {
+  const data = clone(data1)
+  const predicate = queryToPredicate({ _id: 1 })
+  const result = data.filter(predicate)
+  const updater = queryToPredicate({ $addToSet: { item: 'accessories' } })
+  const updated = result.filter(updater)
+  expect(updated[0]?.item).toBe('polarizing_filter')
+})
+
 test('$addToSet value already exists', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
