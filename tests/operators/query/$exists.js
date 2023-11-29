@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query';
+import { queryToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { saffron: 5, cinnamon: 5, mustard: null },
@@ -11,16 +11,16 @@ const data1 = [
   { cinnamon: 2, mustard: 4 },
   { cinnamon: 2 },
   { mustard: 6 }
-];
+]
 
 test('$exists single', () => {
-  const predicate = queryToPredicate({ saffron: { $exists: true } });
-  const result = data1.filter(predicate);
-  expect(result).toHaveLength(7);
-});
+  const predicate = queryToPredicate({ saffron: { $exists: true } })
+  const result = data1.filter(predicate)
+  expect(result).toHaveLength(7)
+})
 
 test('$exists single 1', () => {
-  const predicate = queryToPredicate({ cinnamon: { $exists: false } });
-  const result = data1.filter(predicate);
-  expect(result).toHaveLength(3);
-});
+  const predicate = queryToPredicate({ cinnamon: { $exists: false } })
+  const result = data1.filter(predicate)
+  expect(result).toHaveLength(3)
+})
