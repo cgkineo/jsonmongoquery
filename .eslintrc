@@ -1,3 +1,6 @@
 {
+  "env": {
+    "jest/globals": true
+  },
   "extends": "standard"
 }
