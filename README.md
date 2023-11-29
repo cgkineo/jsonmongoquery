@@ -4,14 +4,14 @@ Mongodb query and update operators for json object arrays.
 
 ### Supported operators
 #### [Comparison query operators](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/)
-* [$eq](https://www.mongodb.com/docs/manual/reference/operator/query/eq/)
-* [$gt](https://www.mongodb.com/docs/manual/reference/operator/query/gt/)
-* [$gte](https://www.mongodb.com/docs/manual/reference/operator/query/gte/)
-* [$in](https://www.mongodb.com/docs/manual/reference/operator/query/in/)
-* [$lt](https://www.mongodb.com/docs/manual/reference/operator/query/lt/)
-* [$lte](https://www.mongodb.com/docs/manual/reference/operator/query/lte/)
-* [$ne](https://www.mongodb.com/docs/manual/reference/operator/query/ne/)
-* [$nin](https://www.mongodb.com/docs/manual/reference/operator/query/nin/)
+* [$eq](https://www.mongodb.com/docs/manual/reference/operator/query/eq/) Matches documents where the value of a field equals the specified value
+* [$gt](https://www.mongodb.com/docs/manual/reference/operator/query/gt/) Selects those documents where the value of the specified field is greater than (i.e. >) the specified value
+* [$gte](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) Selects the documents where the value of the specified field is greater than or equal to (i.e. >=) a specified value
+* [$in](https://www.mongodb.com/docs/manual/reference/operator/query/in/) Selects the documents where the value of a field equals any value in the specified array
+* [$lt](https://www.mongodb.com/docs/manual/reference/operator/query/lt/) Selects the documents where the value of the field is less than (i.e. <) the specified value
+* [$lte](https://www.mongodb.com/docs/manual/reference/operator/query/lte/) Selects the documents where the value of the field is less than or equal to (i.e. <=) the specified value
+* [$ne](https://www.mongodb.com/docs/manual/reference/operator/query/ne/) Selects the documents where the value of the specified field is not equal to the specified value. This includes documents that do not contain the specified field
+* [$nin](https://www.mongodb.com/docs/manual/reference/operator/query/nin/) selects the documents where the specified field value is not in the specified array or the specified field does not exist
 #### [Logical query operators](https://www.mongodb.com/docs/manual/reference/operator/query-logical/)
 * [$and](https://www.mongodb.com/docs/manual/reference/operator/query/and/)
 * [$not](https://www.mongodb.com/docs/manual/reference/operator/query/not/)
