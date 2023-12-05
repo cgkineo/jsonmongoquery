@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { _id: 1, item: 'Hats', highScore: 800, lowScore: 200 }
@@ -12,7 +12,7 @@ test('$max top level fields', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $max: { highScore: 950 }
   })
   const updated = result.filter(updater)
@@ -24,7 +24,7 @@ test('$max non-numeric field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $max: { item: 2 }
   })
   const updated = result.filter(updater)
@@ -35,7 +35,7 @@ test('$max missing field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $max: { test: 2 }
   })
   const updated = result.filter(updater)

@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   {
@@ -18,7 +18,7 @@ test('$inc top level fields', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ sku: 'abc123' })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $inc: { quantity: -2, 'metrics.orders': 1 }
   })
   const updated = result.filter(updater)
@@ -31,7 +31,7 @@ test('$inc non-numeric field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ sku: 'abc123' })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $inc: { sku: 2 }
   })
   const updated = result.filter(updater)
@@ -42,7 +42,7 @@ test('$inc missing field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ sku: 'abc123' })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $inc: { test: 2 }
   })
   const updated = result.filter(updater)
@@ -54,7 +54,7 @@ test('$inc null value', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ sku: 'abc123' })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $inc: { nullish: 2 }
   })
   expect(() => {

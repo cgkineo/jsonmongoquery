@@ -1,0 +1,399 @@
+{
+
+  "title": "Update",
+  "description": "An object with update operators",
+  "type": "object",
+  "properties": {
+    "$addToSet": {
+      "$ref": "#/$defs/addToSetField"
+    },
+    "$currentDate": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/currentDateBooleanOrField"
+      }
+    },
+    "$inc": {
+      "$ref": "#/$defs/numberField"
+    },
+    "$max": {
+      "$ref": "#/$defs/value"
+    },
+    "$min": {
+      "$ref": "#/$defs/value"
+    },
+    "$mul": {
+      "$ref": "#/$defs/numberField"
+    },
+    "$pop": {
+      "$ref": "#/$defs/popField"
+    },
+    "$pull": {
+      "$ref": "#/$defs/queryOperatorField"
+    },
+    "$pullAll": {
+      "$ref": "#/$defs/pullAllField"
+    },
+    "$push": {
+      "$ref": "#/$defs/pushField"
+    },
+    "$rename": {
+      "$ref": "#/$defs/stringField"
+    },
+    "$set": {
+      "$ref": "#/$defs/document"
+    },
+    "$unset": {
+      "$ref": "#/$defs/stringField"
+    }
+  },
+  "propertyNames": {
+    "pattern": "(^[$](addToSet|currentDate|inc|max|min|mul|pop|pull|pullAll|push|rename|set|sort|unset)+)|(^[^$].*)"
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "primitive": {
+      "type": ["string", "number", "boolean", "null"]
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/value"
+      }
+    },
+    "array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/value"
+      }
+    },
+    "value": {
+      "allOf": [
+        {
+          "if": {
+            "type": "object"
+          },
+          "then": {
+            "$ref": "#/$defs/document"
+          }
+        },
+        {
+          "if": {
+            "type": "array"
+          },
+          "then": {
+            "$ref": "#/$defs/array"
+          }
+        },
+        {
+          "if": {
+            "type": ["string", "number", "boolean", "null"]
+          },
+          "then": {
+            "$ref": "#/$defs/primitive"
+          }
+        }
+      ]
+    },
+    "types": {
+      "type": ["string", "number"],
+      "enum": ["number", 1, "double", 2, "string", 3, "object", 4, "array", 6, "undefined", 8, "boolean", "bool", 10, "null", 16, "int", 18, "long", 19, "decimal"]
+    },
+    "addToSetField": {
+      "type": "object",
+      "properties": {
+        "$each": {
+          "$ref": "#/$defs/array"
+        }
+      },
+      "patternProperties": {
+        "^[^$]": {
+          "$ref": "#/$defs/value"
+        }
+      },
+      "if": {
+        "propertyNames": {
+          "pattern": "^[$](each)+"
+        }
+      },
+      "then": {
+        "propertyNames": {
+          "pattern": "(^[$](each)+)|(^[^$].*)"
+        }
+      },
+      "else": {
+        "propertyNames": {
+          "pattern": "(^[^$].*)"
+        }
+      }
+    },
+    "currentDateField": {
+      "type": "object",
+      "properties": {
+        "$type": {
+          "enum": ["date", "timestamp"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "queryOperatorFields": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/queryOperatorField"
+      }
+    },
+    "queryOperatorField": {
+      "type": "object",
+      "properties": {
+        "$eq": {
+          "$ref": "#/$defs/value"
+        },
+        "$gt": {
+          "$ref": "#/$defs/value"
+        },
+        "$gte": {
+          "$ref": "#/$defs/value"
+        },
+        "$in": {
+          "$ref": "#/$defs/array"
+        },
+        "$lt": {
+          "$ref": "#/$defs/value"
+        },
+        "$lte": {
+          "$ref": "#/$defs/value"
+        },
+        "$ne": {
+          "$ref": "#/$defs/value"
+        },
+        "$nin": {
+          "$ref": "#/$defs/array"
+        },
+        "$and": {
+          "$ref": "#/$defs/queryOperatorFields"
+        },
+        "$not": {
+          "$ref": "#/$defs/queryOperatorField"
+        },
+        "$nor": {
+          "$ref": "#/$defs/queryOperatorFields"
+        },
+        "$or": {
+          "$ref": "#/$defs/queryOperatorFields"
+        },
+        "$exists": {
+          "type": "boolean"
+        },
+        "$type": {
+          "type": ["array", "string", "number"],
+          "allOf": [
+            {
+              "if": {
+                "type": "array"
+              },
+              "then": {
+                "items": {
+                  "$ref": "#/$defs/types"
+                }
+              }
+            },
+            {
+              "if": {
+                "type": ["string", "number"]
+              },
+              "then": {
+                "$ref": "#/$defs/types"
+              }
+            }
+          ]
+        },
+        "$mod": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "$regex": {
+          "type": "string"
+        },
+        "$options": {
+          "type": "string"
+        },
+        "$where": {
+          "type": "string"
+        },
+        "$all": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value"
+          }
+        },
+        "$elemMatch": {
+          "$ref": "#/$defs/queryOperatorField"
+        },
+        "$size": {
+          "type": "number"
+        }
+      },
+      "propertyNames": {
+        "pattern": "(^[$](eq|gt|gte|in|lt|lte|ne|nin|and|not|nor|or|exists|type|mod|regex|options|where|all|elemMatch|size)+)|(^[^$].*)"
+      },
+      "patternProperties": {
+        "^[^$]": {
+          "type": ["object", "array", "string", "number", "boolean", "null"],
+          "allOf": [
+            {
+              "if": {
+                "type": "object"
+              },
+              "then": {
+                "$ref": "#/$defs/queryOperatorField"
+              }
+            },
+            {
+              "if": {
+                "type": "array"
+              },
+              "then": {
+                "$ref": "#/$defs/array"
+              }
+            },
+            {
+              "if": {
+                "type": ["string", "number", "boolean", "null"]
+              },
+              "then": {
+                "$ref": "#/$defs/primitive"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "currentDateBooleanOrField": {
+      "type": ["object", "boolean"],
+      "allOf": [
+        {
+          "if": {
+            "type": "object"
+          },
+          "then": {
+
+            "$ref": "#/$defs/currentDateField"
+          }
+        },
+        {
+          "if": {
+            "type": "boolean"
+          },
+          "then": {
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "numberField": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "popField": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "enum": [ -1, 1 ]
+      }
+    },
+    "pullAllField": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/value"
+        }
+      },
+      "patternProperties": {
+        "^[$]+": false
+      }
+    },
+    "sortValue": {
+      "type": "number",
+      "enum": [ -1, 1 ]
+    },
+    "sortField": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/sortValue"
+      }
+    },
+    "sortValueOrField": {
+      "allOf": [
+        {
+          "if": {
+            "type": "object"
+          },
+          "then": {
+            "$ref": "#/$defs/sortField"
+          }
+        },
+        {
+          "if": {
+            "type": "number"
+          },
+          "then": {
+            "$ref": "#/$defs/sortValue"
+          }
+        }
+      ]
+    },
+    "pushField": {
+      "type": "object",
+      "properties": {
+        "$each": {
+          "$ref": "#/$defs/array"
+        },
+        "$slice": {
+          "type": "number"
+        },
+        "$sort": {
+          "$ref": "#/$defs/sortValueOrField"
+        },
+        "$position": {
+          "type": "number"
+        }
+      },
+      "patternProperties": {
+        "^[^$]": {
+          "$ref": "#/$defs/value"
+        }
+      },
+      "if": {
+        "propertyNames": {
+          "pattern": "^[$](each)+"
+        }
+      },
+      "then": {
+        "propertyNames": {
+          "pattern": "^[$](each|slice|position|sort)+"
+        }
+      },
+      "else": {
+        "propertyNames": {
+          "pattern": "(^[^$].*)"
+        }
+      }
+    },
+    "stringField": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}
+

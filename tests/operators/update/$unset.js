@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { item: 'chisel', sku: 'C001', quantity: 4, instock: true, ratings: [{ by: 'Customer007', rating: 4 }] },
@@ -9,7 +9,7 @@ const data1 = [
 test('$unset top level fields', () => {
   const predicate = queryToPredicate({ sku: 'unknown' })
   const result = data1.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $unset: { quantity: '', instock: '' }
   })
   const updated = result.filter(updater)
@@ -21,7 +21,7 @@ test('$unset top level fields', () => {
 })
 
 test('$unset dot notation update embedded documents', () => {
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $unset:
       {
         'ratings.$[].by': ''
@@ -33,7 +33,7 @@ test('$unset dot notation update embedded documents', () => {
 })
 
 test('$unset dot notation missing field', () => {
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $unset:
       {
         'ratings.$[].none': ''

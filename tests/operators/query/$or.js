@@ -24,6 +24,9 @@ test('$or different fields', () => {
 
 test('$or called without array', () => {
   expect(() => {
+    queryToPredicate({ quantity: { $or: 1 } }, { validate: true })
+  }).toThrow('quantity.$or: must be array')
+  expect(() => {
     queryToPredicate({ quantity: { $or: 1 } })
   }).toThrow('$or must specify an array')
 })

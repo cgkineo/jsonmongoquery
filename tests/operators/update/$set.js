@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   {
@@ -20,7 +20,7 @@ test('$set top level fields', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set: {
       quantity: 500,
       details: { model: '2600', make: 'Fashionaires' },
@@ -39,7 +39,7 @@ test('$set fields in embedded documents', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set: { 'details.make': 'Kustom Kidz' }
   })
   const updated = result.filter(updater)
@@ -51,7 +51,7 @@ test('$set elements in arrays', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'tags.1': 'rain gear',
@@ -68,7 +68,7 @@ test('$set create dot notation', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'missing.0.newfield': 'test'
@@ -85,7 +85,7 @@ test('$set create dot notation 2', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'tags.2.name': 'test'
@@ -101,7 +101,7 @@ test('$set create dot notation update embedded documents', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'ratings.$[].name': 'test'
@@ -116,7 +116,7 @@ test('$set create dot notation missed array', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 100 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'details.$[].name': 'test'
@@ -158,7 +158,7 @@ const data2 = [
 
 test('$set create dot notation missed deep property', () => {
   const data = clone(data2)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'details.make.part.test': 'test'
@@ -170,7 +170,7 @@ test('$set create dot notation missed deep property', () => {
 
 test('$set create dot notation missed shallow property', () => {
   const data = clone(data2)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $set:
       {
         'ratings.part.test': 'test'

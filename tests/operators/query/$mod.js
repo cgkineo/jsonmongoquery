@@ -41,11 +41,17 @@ test('$mod floating point 3', () => {
 
 test('$mod not array', () => {
   expect(() => {
+    queryToPredicate({ qty: { $mod: 1 } }, { validate: true })
+  }).toThrow('qty.$mod: must be array')
+  expect(() => {
     queryToPredicate({ qty: { $mod: 1 } })
   }).toThrow('$mod must specify an array')
 })
 
 test('$mod invalid divisor', () => {
+  expect(() => {
+    queryToPredicate({ qty: { $mod: [Infinity, 1] } }, { validate: true })
+  }).toThrow('qty.$mod.0: must be number')
   expect(() => {
     queryToPredicate({ qty: { $mod: [Infinity, 1] } })
   }).toThrow('invalid $mod divisor')
@@ -53,17 +59,26 @@ test('$mod invalid divisor', () => {
 
 test('$mod invalid remainder', () => {
   expect(() => {
+    queryToPredicate({ qty: { $mod: [1, Infinity] } }, { validate: true })
+  }).toThrow('qty.$mod.1: must be number')
+  expect(() => {
     queryToPredicate({ qty: { $mod: [1, Infinity] } })
   }).toThrow('invalid $mod remainder')
 })
 
 test('$mod malformed not enough elements', () => {
   expect(() => {
+    queryToPredicate({ qty: { $mod: [4] } }, { validate: true })
+  }).toThrow('qty.$mod: must NOT have fewer than 2 items')
+  expect(() => {
     queryToPredicate({ qty: { $mod: [4] } })
   }).toThrow('malformed mod, not enough elements')
 })
 
 test('$mod malformed too many elements', () => {
+  expect(() => {
+    queryToPredicate({ qty: { $mod: [4, 0, 0] } }, { validate: true })
+  }).toThrow('qty.$mod: must NOT have more than 2 items')
   expect(() => {
     queryToPredicate({ qty: { $mod: [4, 0, 0] } })
   }).toThrow('malformed mod, too many elements')

@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { _id: 1, item: 'polarizing_filter', tags: ['electronics', 'camera'] },
@@ -13,7 +13,7 @@ test('$addToSet add to array', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $addToSet: { tags: 'accessories' } })
+  const updater = updateToPredicate({ $addToSet: { tags: 'accessories' } })
   const updated = result.filter(updater)
   expect(updated[0]?.tags).toHaveLength(3)
   expect(updated[0]?.tags[0]).toBe('electronics')
@@ -25,7 +25,7 @@ test('$addToSet make new array', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $addToSet: { utags: 'accessories' } })
+  const updater = updateToPredicate({ $addToSet: { utags: 'accessories' } })
   const updated = result.filter(updater)
   expect(updated[0]?.utags).toHaveLength(1)
   expect(updated[0]?.utags[0]).toBe('accessories')
@@ -35,7 +35,7 @@ test('$addToSet on incorrect data type', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $addToSet: { item: 'accessories' } })
+  const updater = updateToPredicate({ $addToSet: { item: 'accessories' } })
   const updated = result.filter(updater)
   expect(updated).toHaveLength(0)
 })
@@ -44,7 +44,7 @@ test('$addToSet value already exists', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $addToSet: { tags: 'camera' } })
+  const updater = updateToPredicate({ $addToSet: { tags: 'camera' } })
   const updated = result.filter(updater)
   expect(updated).toHaveLength(0)
 })
@@ -53,7 +53,7 @@ test('$addToSet each modifier', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 2 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $addToSet: { tags: { $each: ['camera', 'electronics', 'accessories'] } } })
+  const updater = updateToPredicate({ $addToSet: { tags: { $each: ['camera', 'electronics', 'accessories'] } } })
   const updated = result.filter(updater)
   expect(updated[0]?.tags).toHaveLength(4)
   expect(updated[0]?.tags[0]).toBe('electronics')

@@ -48,6 +48,9 @@ test('$and with multiple expressions specifying the same operator', () => {
 
 test('$and called without array', () => {
   expect(() => {
+    queryToPredicate({ quantity: { $and: 1 } }, { validate: true })
+  }).toThrow('quantity.$and: must be array')
+  expect(() => {
     queryToPredicate({ quantity: { $and: 1 } })
   }).toThrow('$and must specify an array')
 })

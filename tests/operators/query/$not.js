@@ -25,6 +25,9 @@ test('$not example', () => {
 
 test('$not called without object', () => {
   expect(() => {
+    queryToPredicate({ quantity: { $not: 1 } }, { validate: true })
+  }).toThrow('quantity.$not: must be object')
+  expect(() => {
     queryToPredicate({ quantity: { $not: 1 } })
   }).toThrow('$not must specify an object')
 })

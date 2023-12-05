@@ -1,70 +1,9 @@
-import {
-  isAbsoluteValue,
-  isArray,
-  isBool,
-  isDate,
-  isDocument,
-  isDocumentOrArray,
-  isNull,
-  isNumber,
-  isRegEx,
-  isString,
-  isPassedByValue,
-  isUndefined
-} from './lib/is.js'
-import {
-  pathRead,
-  pathCreate,
-  pathHas,
-  pathParse,
-  pathUpdate,
-  pathsJoin
-} from './lib/paths.js'
-import copy from './lib/copy.js'
+import Context from './lib/Context.js'
 import queryToPredicate from './lib/predicates/queryToPredicate.js'
+import updateToPredicate from './lib/predicates/updateToPredicate.js'
 
 export {
-  isAbsoluteValue,
-  isArray,
-  isBool,
-  isDate,
-  isDocument,
-  isDocumentOrArray,
-  isNull,
-  isNumber,
-  isRegEx,
-  isString,
-  isPassedByValue,
-  isUndefined,
-  pathRead,
-  pathCreate,
-  pathHas,
-  pathParse,
-  pathUpdate,
-  pathsJoin,
-  copy,
-  queryToPredicate
-}
-
-export default {
-  isAbsoluteValue,
-  isArray,
-  isBool,
-  isDate,
-  isDocument,
-  isDocumentOrArray,
-  isNull,
-  isNumber,
-  isRegEx,
-  isString,
-  isPassedByValue,
-  isUndefined,
-  pathRead,
-  pathCreate,
-  pathHas,
-  pathParse,
-  pathUpdate,
-  pathsJoin,
-  copy,
-  queryToPredicate
+  Context,
+  queryToPredicate,
+  updateToPredicate
 }

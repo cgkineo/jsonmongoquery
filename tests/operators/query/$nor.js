@@ -43,6 +43,9 @@ test('$nor and $exists', () => {
 
 test('$nor called without array', () => {
   expect(() => {
+    queryToPredicate({ quantity: { $nor: 1 } }, { validate: true })
+  }).toThrow('quantity.$nor: must be array')
+  expect(() => {
     queryToPredicate({ quantity: { $nor: 1 } })
   }).toThrow('$nor must specify an array')
 })

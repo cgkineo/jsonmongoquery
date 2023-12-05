@@ -14,19 +14,11 @@ test('$where string', () => {
   expect(result[0]?._id).toBe(2)
 })
 
-test('$where function', () => {
-  const predicate = queryToPredicate({
-    $where: function () {
-      return (this.name === 'Steve')
-    }
-  })
-  const result = data1.filter(predicate)
-  expect(result).toHaveLength(1)
-  expect(result[0]?._id).toBe(12378)
-})
-
-test('$where not spring or function', () => {
+test('$where not spring', () => {
+  expect(() => {
+    queryToPredicate({ $where: 1 }, { validate: true })
+  }).toThrow('$where: must be string')
   expect(() => {
     queryToPredicate({ $where: 1 })
-  }).toThrow('$where must specify a string or function')
+  }).toThrow('$where must specify a string')
 })

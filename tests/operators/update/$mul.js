@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { _id: 1, item: 'Hats', price: 10.99, quantity: 25 }
@@ -12,7 +12,7 @@ test('$mul top level fields', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $mul: {
       price: 1.25,
       quantity: 2
@@ -28,7 +28,7 @@ test('$mul non-numeric field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $mul: { item: 2 }
   })
   const updated = result.filter(updater)
@@ -39,7 +39,7 @@ test('$mul missing field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $mul: { test: 2 }
   })
   const updated = result.filter(updater)

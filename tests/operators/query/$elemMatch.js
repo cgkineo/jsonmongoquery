@@ -62,6 +62,9 @@ test('$elemMatch single query condition implicit', () => {
 
 test('$elemMatch without object', () => {
   expect(() => {
+    queryToPredicate({ results: { $elemMatch: 1 } }, { validate: true })
+  }).toThrow('results.$elemMatch: must be object')
+  expect(() => {
     queryToPredicate({ results: { $elemMatch: 1 } })
   }).toThrow('$elemMatch must specify an object')
 })

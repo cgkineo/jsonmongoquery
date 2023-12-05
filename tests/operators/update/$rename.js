@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   {
@@ -28,7 +28,7 @@ function clone (json) {
 
 test('$rename a field', () => {
   const data = clone(data1)
-  const updater = queryToPredicate({ $rename: { nmae: 'name' } })
+  const updater = updateToPredicate({ $rename: { nmae: 'name' } })
   const updated = data.filter(updater)
   expect(updated).toHaveLength(3)
   expect(updated[0]?.name).toBeInstanceOf(Object)
@@ -43,7 +43,7 @@ test('$rename a field in an embedded document', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $rename: { 'nmae.first': 'nmae.fname' } })
+  const updater = updateToPredicate({ $rename: { 'nmae.first': 'nmae.fname' } })
   const updated = result.filter(updater)
   expect(updated).toHaveLength(1)
   expect(updated[0]?.nmae.fname).toBe('george')
@@ -54,7 +54,7 @@ test('$rename to move a field from an embedded document', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $rename: { 'nmae.first': 'firstname' } })
+  const updater = updateToPredicate({ $rename: { 'nmae.first': 'firstname' } })
   const updated = result.filter(updater)
   expect(updated).toHaveLength(1)
   expect(updated[0]?.firstname).toBe('george')
@@ -65,7 +65,7 @@ test('$rename a field that does not exist', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $rename: { wife: 'spouse' } })
+  const updater = updateToPredicate({ $rename: { wife: 'spouse' } })
   const updated = result.filter(updater)
   expect(updated).toHaveLength(1)
   expect(updated[0]?.spouse).toBeUndefined()
@@ -75,7 +75,7 @@ test('$rename to move a field to created a missing nested document', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $rename: {
       'nmae.first': 'details.name.first',
       'nmae.last': 'details.name.last',
@@ -87,16 +87,3 @@ test('$rename to move a field to created a missing nested document', () => {
   expect(updated[0]?.details).toBeInstanceOf(Object)
   expect(updated[0]?.details.name).toBeInstanceOf(Object)
 })
-
-// test('$rename to move select and created a field in a nested document', () => {
-//   const data = clone(data1);
-//   const predicate = queryToPredicate({ _id: 3 });
-//   const result = data.filter(predicate);
-//   const updater = queryToPredicate({ $rename: {
-//     "names.$[].first": "names.$.fname"
-//   }});
-//   const updated = result.filter(updater);
-//   // expect(updated).toHaveLength(1);
-//   // expect(updated[0]?.details).toBeInstanceOf(Object);
-//   // expect(updated[0]?.details.name).toBeInstanceOf(Object);
-// });

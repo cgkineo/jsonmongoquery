@@ -24,6 +24,9 @@ test('$nin match elements not in an array', () => {
 
 test('$nin called without array', () => {
   expect(() => {
+    queryToPredicate({ tags: { $nin: 1 } }, { validate: true })
+  }).toThrow('tags.$nin: must be array')
+  expect(() => {
     queryToPredicate({ tags: { $nin: 1 } })
   }).toThrow('$nin must specify an array')
 })

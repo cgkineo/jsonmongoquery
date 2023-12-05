@@ -69,6 +69,9 @@ test('$all non array fields', () => {
 
 test('$all called without array', () => {
   expect(() => {
+    queryToPredicate({ tags: { $all: 1 } }, { validate: true })
+  }).toThrow('tags.$all: must be array')
+  expect(() => {
     queryToPredicate({ tags: { $all: 1 } })
   }).toThrow('$all must specify an array')
 })

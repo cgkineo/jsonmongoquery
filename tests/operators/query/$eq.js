@@ -93,22 +93,8 @@ test('$eq match a string implicit', () => {
   expect(result[0]?.company).toBe('MongoDB')
 })
 
-test('$eq match on a regular expression', () => {
-  const predicate = queryToPredicate({ company: { $eq: /MongoDB/ } })
-  const result = data2.filter(predicate)
-  expect(result).toHaveLength(0)
-})
-
 test('$eq regular expression matches explicit', () => {
-  const predicate = queryToPredicate({ company: { $regex: /MongoDB/ } })
-  const result = data2.filter(predicate)
-  expect(result).toHaveLength(2)
-  expect(result[0]?.company).toBe('MongoDB')
-  expect(result[1]?.company).toBe('MongoDB2')
-})
-
-test('$eq regular expression matches implicit', () => {
-  const predicate = queryToPredicate({ company: /MongoDB/ })
+  const predicate = queryToPredicate({ company: { $regex: 'mongodb', $options: 'i' } })
   const result = data2.filter(predicate)
   expect(result).toHaveLength(2)
   expect(result[0]?.company).toBe('MongoDB')
@@ -116,38 +102,6 @@ test('$eq regular expression matches implicit', () => {
 })
 
 const data3 = [
-  { _id: 1, company: /MongoDB/ },
-  { _id: 2, company: /MongoDB2/ }
-]
-
-test('$eq match on a regular expression 2', () => {
-  const predicate = queryToPredicate({ company: { $eq: /MongoDB/ } })
-  const result = data3.filter(predicate)
-  expect(result).toHaveLength(1)
-  expect(result[0]?.company).toBeInstanceOf(RegExp)
-})
-
-const date = new Date('1971')
-const data4 = [
-  { _id: 1, date },
-  { _id: 2, date: new Date(Date.now()) }
-]
-
-test('$eq match on explicit date', () => {
-  const predicate = queryToPredicate({ date: { $eq: date } })
-  const result = data4.filter(predicate)
-  expect(result).toHaveLength(1)
-  expect(result[0]?.date).toBeInstanceOf(Date)
-})
-
-test('$eq match on implicite date', () => {
-  const predicate = queryToPredicate({ date })
-  const result = data4.filter(predicate)
-  expect(result).toHaveLength(1)
-  expect(result[0]?.date).toBeInstanceOf(Date)
-})
-
-const data5 = [
   { _id: 1, item: { name: 'ab', code: '123' }, qty: 15, tags: 1 },
   { _id: 2, item: { name: 'cd', code: '123' }, qty: 20, tags: ['B'] },
   { _id: 3, item: { name: 'ij', code: '456' }, qty: 25, tags: ['A', 'B'] },
@@ -157,6 +111,6 @@ const data5 = [
 
 test('$eq missing array $[]', () => {
   const predicate = queryToPredicate({ 'tags.$[].name': 'ab' })
-  const result = data5.filter(predicate)
+  const result = data3.filter(predicate)
   expect(result).toHaveLength(0)
 })

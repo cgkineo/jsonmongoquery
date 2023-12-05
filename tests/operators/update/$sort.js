@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   {
@@ -18,7 +18,7 @@ test('$sort array of documents by a field in the documents', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: {
       quizzes: {
         $each: [{ id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 }],
@@ -43,7 +43,7 @@ test('$sort array that are not documents', () => {
   const data = clone(data2)
   const predicate = queryToPredicate({ _id: 2 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: { tests: { $each: [40, 60], $sort: 1 } }
   })
   const updated = result.filter(updater)
@@ -57,18 +57,17 @@ test('$sort array that are not documents', () => {
 })
 
 const data3 = [
-  { _id: 2, tests: [89, 70, 89, 50, "a", 91] }
+  { _id: 2, tests: [89, 70, 89, 50, 'a', 91] }
 ]
 
 test('$sort array that are not documents with type mismatch', () => {
   const data = clone(data3)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: { tests: { $each: [], $sort: 1 } }
   })
   const updated = data.filter(updater)
-  expect(updated[0].tests[5]).toBe('a');
+  expect(updated[0].tests[5]).toBe('a')
 })
-
 
 const data4 = [
   {
@@ -85,7 +84,7 @@ const data4 = [
 
 test('$sort array of documents that are second order identical', () => {
   const data = clone(data4)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: { tests: { $each: [], $sort: { number: 1, number2: 1, number3: 1 } } }
   })
   data.filter(updater)

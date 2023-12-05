@@ -24,15 +24,10 @@ test('$in match values in an array', () => {
   expect(result[2]?.item).toBe('Books')
 })
 
-test('$in match regex in an array', () => {
-  const predicate = queryToPredicate({ tags: { $in: [/^be/, /^st/] } })
-  const result = data1.filter(predicate)
-  expect(result).toHaveLength(2)
-  expect(result[0]?.item).toBe('Maps')
-  expect(result[1]?.item).toBe('Books')
-})
-
 test('$in called without array', () => {
+  expect(() => {
+    queryToPredicate({ tags: { $in: 1 } }, { validate: true })
+  }).toThrow('tags.$in: must be array')
   expect(() => {
     queryToPredicate({ tags: { $in: 1 } })
   }).toThrow('$in must specify an array')

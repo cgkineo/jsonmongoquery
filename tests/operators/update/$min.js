@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { _id: 1, item: 'Hats', highScore: 800, lowScore: 200 }
@@ -12,7 +12,7 @@ test('$min top level fields', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $min: { lowScore: 150 }
   })
   const updated = result.filter(updater)
@@ -24,7 +24,7 @@ test('$min non-numeric field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $min: { item: 2 }
   })
   const updated = result.filter(updater)
@@ -35,7 +35,7 @@ test('$min missing field', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $min: { test: 2 }
   })
   const updated = result.filter(updater)

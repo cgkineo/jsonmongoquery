@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
 
 const data1 = [
   { _id: 1, scores: [44, 78, 38, 80] },
@@ -15,7 +15,7 @@ test('$push append a value to an array', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $push: { scores: 89 } })
+  const updater = updateToPredicate({ $push: { scores: 89 } })
   const updated = result.filter(updater)
   expect(updated[0]?.scores).toHaveLength(5)
   expect(updated[0]?.scores[0]).toBe(44)
@@ -29,7 +29,7 @@ test('$push make new array', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $push: { uscores: 'accessories' } })
+  const updater = updateToPredicate({ $push: { uscores: 'accessories' } })
   const updated = result.filter(updater)
   expect(updated[0]?.uscores).toHaveLength(1)
   expect(updated[0]?.uscores[0]).toBe('accessories')
@@ -39,14 +39,14 @@ test('$push on incorrect data type', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $push: { _id: 'accessories' } })
+  const updater = updateToPredicate({ $push: { _id: 'accessories' } })
   const updated = result.filter(updater)
   expect(updated).toHaveLength(0)
 })
 
 test('$push append a value to arrays in multiple documents', () => {
   const data = clone(data1)
-  const updater = queryToPredicate({ $push: { scores: 95 } })
+  const updater = updateToPredicate({ $push: { scores: 95 } })
   const updated = data.filter(updater)
   updated.forEach((row, index) => {
     expect(row?.scores.length).toBe(data1[index].scores.length + 1)
@@ -58,7 +58,7 @@ test('$push append multiple values to an array', () => {
   const data = clone(data1)
   const predicate = queryToPredicate({ _id: 1 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({ $push: { scores: { $each: [90, 92, 85] } } })
+  const updater = updateToPredicate({ $push: { scores: { $each: [90, 92, 85] } } })
   const updated = result.filter(updater)
   expect(updated[0]?.scores).toHaveLength(7)
   expect(updated[0]?.scores[0]).toBe(44)
@@ -86,7 +86,7 @@ test('$push operator with multiple modifiers', () => {
   const data = clone(data2)
   const predicate = queryToPredicate({ _id: 5 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: {
       quizzes: {
         $each: [{ wk: 5, score: 8 }, { wk: 6, score: 7 }, { wk: 7, score: 6 }],
@@ -106,7 +106,7 @@ test('$push operator with multiple modifiers 2', () => {
   const data = clone(data2)
   const predicate = queryToPredicate({ _id: 5 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: {
       quizzes: {
         $each: [
@@ -129,7 +129,7 @@ test('$push operator with multiple modifiers 3', () => {
   const data = clone(data2)
   const predicate = queryToPredicate({ _id: 5 })
   const result = data.filter(predicate)
-  const updater = queryToPredicate({
+  const updater = updateToPredicate({
     $push: {
       quizzes: {
         $each: [
