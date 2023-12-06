@@ -84,15 +84,17 @@ console.log(updated)
 * [$pushAll](https://www.mongodb.com/docs/manual/reference/operator/update/pushAll/) `{ $pullAll: { field1: [ value1, ... ], ... } }` Removes all instances of the specified values from an existing array
 
 ### Supported JSONTypes
+A subset of BSON Types https://www.mongodb.com/docs/manual/reference/bson-types/#bson-types
+
 | name | value | order |
 | ---- | ----- | ----- |
 | undefined | 0 | 0 |
 | null | 10 | 1 |
-| number, int, long, double, decimal | 1 | 2 |
+| number | 1 | 2 |
 | string | 2 | 3 |
 | object | 3 | 4 |
 | array | 4 | 5 |
-| boolean, bool | 8 | 8 |
+| bool | 8 | 8 |
 
 
 ### Not implemented

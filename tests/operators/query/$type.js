@@ -99,7 +99,7 @@ test('$type number', () => {
 })
 
 test('$type boolean', () => {
-  const predicate = queryToPredicate({ value: { $type: ['boolean'] } })
+  const predicate = queryToPredicate({ value: { $type: ['bool'] } })
   const result = data2.filter(predicate)
   expect(result).toHaveLength(1)
 })
