@@ -38,22 +38,31 @@ Mongodb query and update operators for json object arrays.
 * [$set](https://www.mongodb.com/docs/manual/reference/operator/update/set/) `{ $set: { field1: value1, ... } }` Replaces the value of a field with the specified value 
 * [$unset](https://www.mongodb.com/docs/manual/reference/operator/update/unset/) `{ $unset: { field1: "", ... } }` Deletes a particular field
 #### [Array update operators](https://www.mongodb.com/docs/manual/reference/operator/update-array/)
-* [$[]](https://www.mongodb.com/docs/manual/reference/operator/update/positional-all/)
-* [$addToSet](https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/)
-* [$pop](https://www.mongodb.com/docs/manual/reference/operator/update/pop/)
-* [$pull](https://www.mongodb.com/docs/manual/reference/operator/update/pull/)
-* [$push](https://www.mongodb.com/docs/manual/reference/operator/update/push/)
-* [$pushAll](https://www.mongodb.com/docs/manual/reference/operator/update/pushAll/)
-* [$each](https://www.mongodb.com/docs/manual/reference/operator/update/each/)
-* [$position](https://www.mongodb.com/docs/manual/reference/operator/update/position/)
-* [$slice](https://www.mongodb.com/docs/manual/reference/operator/update/slice/)
-* [$sort](https://www.mongodb.com/docs/manual/reference/operator/update/sort/)
+* [$[]](https://www.mongodb.com/docs/manual/reference/operator/update/positional-all/) `{ update-operator: { "array.$[]": value } }` Indicates that the update operator should modify all elements in the specified array field
+* [$addToSet](https://www.mongodb.com/docs/manual/reference/operator/update/addToSet/) `{ $addToSet: { field1: value1, ... } }` Adds a value to an array unless the value is already present
+* [$pop](https://www.mongodb.com/docs/manual/reference/operator/update/pop/) `{ $pop: { field: -1 | 1, ... } }` Removes the first or last element of an array
+* [$pull](https://www.mongodb.com/docs/manual/reference/operator/update/pull/) `{ $pull: { field1: value|condition, ... } }` Removes from an existing array all instances of a value or values that match a specified condition
+* [$push](https://www.mongodb.com/docs/manual/reference/operator/update/push/) `{ $push: { field1: value1, ... } }` Appends a specified value to an array
+* [$each](https://www.mongodb.com/docs/manual/reference/operator/update/each/) `{ $push: { field: { $each: [ value1, ... ] } }, $addToSet: { field: { $each: [ value1, ... ] } } }` Modifier is available for use with the $addToSet operator and the $push operator.
+* [$position](https://www.mongodb.com/docs/manual/reference/operator/update/position/) `{ $push: { field: { $each: [ value1, ... ], $position: num } } }` Modifier specifies the location in the array at which the $push operator inserts elements
+* [$slice](https://www.mongodb.com/docs/manual/reference/operator/update/slice/) `{ $push: { field: { $each: [ value1, ... ], $slice: num } } }` Modifier limits the number of array elements during a $push operation
+* [$sort](https://www.mongodb.com/docs/manual/reference/operator/update/sort/) `{ $push: { field: { $each: [ value1, ... ], $sort: -1 | 1 | { field1: 1, field2: -1, ... } } }` Modifier orders the elements of an array during a $push operation 
+* [$pushAll](https://www.mongodb.com/docs/manual/reference/operator/update/pushAll/) `{ $pullAll: { field1: [ value1, ... ], ... } }` Removes all instances of the specified values from an existing array
+
+### Supported JSONTypes
+1. undefined (order: 0, value: 0)
+2. null (order: 1, value: 10)
+3. number, int, long, double, decimal (order: 2, value: 1)
+4. string (order: 3, value: 2)
+5. object (order: 4, value: 3)
+6. array (order: 5, value: 4)
+9. boolean, bool (order: 8, value: 8)
 
 
 ### Not implemented
 1. Lexicographic vs numeric order is not currently supported https://www.mongodb.com/docs/manual/reference/operator/update/#behavior
 
-### Upsupported operators
+### Unsupported operators
 #### [Evaluation query operators](https://www.mongodb.com/docs/manual/reference/operator/query-evaluation/)
 * [$expr](https://www.mongodb.com/docs/manual/reference/operator/query/expr/)
 * [$jsonSchema](https://www.mongodb.com/docs/manual/reference/operator/query/jsonSchema/)

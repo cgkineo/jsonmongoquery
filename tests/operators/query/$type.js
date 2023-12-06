@@ -50,7 +50,7 @@ test('$type unsupported', () => {
   }).toThrow('tags.$type: must be equal to one of the allowed values')
   expect(() => {
     queryToPredicate({ tags: { $type: 'symbol' } })
-  }).toThrow('The symbol (14) data type is unsupported.')
+  }).toThrow('The symbol data type is unsupported.')
 })
 
 test('$type unsupported 1', () => {
@@ -59,7 +59,7 @@ test('$type unsupported 1', () => {
   }).toThrow('tags.$type.0: must be equal to one of the allowed values')
   expect(() => {
     queryToPredicate({ tags: { $type: ['symbol'] } })
-  }).toThrow('The symbol (14) data type is unsupported.')
+  }).toThrow('The symbol data type is unsupported.')
 })
 
 test('$type invalid', () => {
