@@ -1,6 +1,6 @@
 # jsonmongoquery
 
-Mongodb query and update operators for json object arrays. 
+Mongodb query and update operators for json object arrays.
 
 ### Usage
 ```js
@@ -29,7 +29,7 @@ console.log(filtered)
 // Query will remove the last item from the tags array
 const updateQuery = { $pop: { tags: 1 } }
 // Make an update predicate function from the update query, validate the query according to the update schema
-const updatePredicate = updateToPredicate(, { validate: true, context })
+const updatePredicate = updateToPredicate(updateQuery, { validate: true, context })
 // Filter the data according to the predicate
 const updated = filtered.filter(updatePredicate)
 console.log(updated)
