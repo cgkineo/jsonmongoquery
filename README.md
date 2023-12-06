@@ -18,17 +18,17 @@ const data = [
   { _id: 5, item: { name: 'mn', code: '000' }, qty: 20, tags: [['A', 'B'], 'C'] }
 ]
 
-// Query will select items where qty = 20, validate the query according to the query schema
+// Query will select items where qty = 20
 const filterQuery = { qty: { $eq: 20 } }
-// Make an filter predicate function from the filter query
+// Make an filter predicate function from the filter query, validate the query according to the query schema
 const filterPredicate = queryToPredicate(filterQuery, { validate: true, context })
 // Filter the data according to the predicate
 const filtered = data.filter(filterPredicate)
 console.log(filtered)
 
-// Query will remove the last item from the tags array, validate the query according to the update schema
+// Query will remove the last item from the tags array
 const updateQuery = { $pop: { tags: 1 } }
-// Make an update predicate function from the update query
+// Make an update predicate function from the update query, validate the query according to the update schema
 const updatePredicate = updateToPredicate(, { validate: true, context })
 // Filter the data according to the predicate
 const updated = filtered.filter(updatePredicate)
