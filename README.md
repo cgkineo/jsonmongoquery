@@ -1,6 +1,6 @@
 # jsonmongoquery
 
-Mongodb query and update operators for json object arrays.
+Mongodb query and update operators for json object arrays. 
 
 ### Usage
 ```js
