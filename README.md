@@ -50,13 +50,15 @@ Mongodb query and update operators for json object arrays.
 * [$pushAll](https://www.mongodb.com/docs/manual/reference/operator/update/pushAll/) `{ $pullAll: { field1: [ value1, ... ], ... } }` Removes all instances of the specified values from an existing array
 
 ### Supported JSONTypes
-1. undefined (order: 0, value: 0)
-2. null (order: 1, value: 10)
-3. number, int, long, double, decimal (order: 2, value: 1)
-4. string (order: 3, value: 2)
-5. object (order: 4, value: 3)
-6. array (order: 5, value: 4)
-9. boolean, bool (order: 8, value: 8)
+| name | value | order |
+| ---- | ----- | ----- |
+| undefined | 0 | 0 |
+| null | 10 | 1 |
+| number, int, long, double, decimal | 1 | 2 |
+| string | 2 | 3 |
+| object | 3 | 4 |
+| array | 4 | 5 |
+| boolean, bool | 8 | 8 |
 
 
 ### Not implemented
