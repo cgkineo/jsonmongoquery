@@ -3,7 +3,7 @@ import { queryToPredicate } from 'jsonmongoquery'
 test('bad operator $missing', () => {
   expect(() => {
     queryToPredicate({ $missing: 1 }, { validate: true })
-  }).toThrow('$missing: boolean schema is false')
+  }).toThrow('$missing: must match pattern "(^[$](where|and|nor|or)+)|(^[^$].*)"')
   expect(() => {
     queryToPredicate({ $missing: 1 })
   }).toThrow('Operator $missing is not supported')
@@ -12,7 +12,7 @@ test('bad operator $missing', () => {
 test('bad operator $', () => {
   expect(() => {
     queryToPredicate({ $: 1 }, { validate: true })
-  }).toThrow('$: boolean schema is false')
+  }).toThrow('$: must match pattern "(^[$](where|and|nor|or)+)|(^[^$].*)"')
   expect(() => {
     queryToPredicate({ $: 1 })
   }).toThrow('Operator $ is not supported')
@@ -21,7 +21,7 @@ test('bad operator $', () => {
 test('bad operator $[element]', () => {
   expect(() => {
     queryToPredicate({ '$[element]': 1 }, { validate: true })
-  }).toThrow('$[element]: boolean schema is false')
+  }).toThrow('$[element]: must match pattern "(^[$](where|and|nor|or)+)|(^[^$].*)"')
   expect(() => {
     queryToPredicate({ '$[element]': 1 })
   }).toThrow('Operator $[element] is not supported')

@@ -1,44 +1,44 @@
 {
   "title": "Query",
-  "description": "An object with field query operators",
+  "description": "An object with query operators",
   "type": "object",
   "properties": {
     "$where": {
       "type": "string"
     },
     "$and": {
-      "$ref": "#/$defs/queryOperatorFieldsOrArrayOrPrimitive"
+      "$ref": "#/$defs/queryOperatorFieldsOrArrayOrAnyPrimitive"
     },
     "$nor": {
-      "$ref": "#/$defs/queryOperatorFieldsOrArrayOrPrimitive"
+      "$ref": "#/$defs/queryOperatorFieldsOrArrayOrAnyPrimitive"
     },
     "$or": {
-      "$ref": "#/$defs/queryOperatorFieldsOrArrayOrPrimitive"
+      "$ref": "#/$defs/queryOperatorFieldsOrArrayOrAnyPrimitive"
     }
   },
-  "additionalProperties": {
-    "$ref": "#/$defs/queryOperatorFieldOrArrayOrPrimitive"
+  "propertyNames": {
+    "pattern": "(^[$](where|and|nor|or)+)|(^[^$].*)"
   },
-  "patternProperties": {
-    "(^[$]+(?!(where|and|nor|or)))": false
+  "additionalProperties": {
+    "$ref": "#/$defs/queryOperatorFieldOrArrayOrAnyPrimitive"
   },
   "$defs": {
-    "primitive": {
+    "anyPrimitive": {
       "type": ["string", "number", "boolean", "null"]
     },
     "document": {
       "type": "object",
       "additionalProperties": {
-        "$ref": "#/$defs/value"
+        "$ref": "#/$defs/anyValue"
       }
     },
     "array": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/value"
+        "$ref": "#/$defs/anyValue"
       }
     },
-    "value": {
+    "anyValue": {
       "type": ["object", "array", "string", "number", "boolean", "null"],
       "allOf": [
         {
@@ -62,16 +62,16 @@
             "type": ["string", "number", "boolean", "null"]
           },
           "then": {
-            "$ref": "#/$defs/primitive"
+            "$ref": "#/$defs/anyPrimitive"
           }
         }
       ]
     },
     "types": {
       "type": ["string", "number"],
-      "enum": ["number", 1, "double", 2, "string", 3, "object", 4, "array", 6, "undefined", 8, "boolean", "bool", 10, "null", 16, "int", 18, "long", 19, "decimal"]
+      "enum": [1, "number", 2, "string", 3, "object", 4, "array", 6, "undefined", 8, "bool", 10, "null"]
     },
-    "queryOperatorFieldOrArrayOrPrimitive": {
+    "queryOperatorFieldOrArrayOrAnyPrimitive": {
       "allOf": [
         {
           "if": {
@@ -94,15 +94,15 @@
             "type": ["string", "number", "boolean", "null"]
           },
           "then": {
-            "$ref": "#/$defs/primitive"
+            "$ref": "#/$defs/anyPrimitive"
           }
         }
       ]
     },
-    "queryOperatorFieldsOrArrayOrPrimitive": {
+    "queryOperatorFieldsOrArrayOrAnyPrimitive": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/queryOperatorFieldOrArrayOrPrimitive"
+        "$ref": "#/$defs/queryOperatorFieldOrArrayOrAnyPrimitive"
       }
     },
     "queryOperatorFields": {
@@ -115,40 +115,40 @@
       "type": "object",
       "properties": {
         "$eq": {
-          "$ref": "#/$defs/value"
+          "$ref": "#/$defs/anyValue"
         },
         "$gt": {
-          "$ref": "#/$defs/value"
+          "$ref": "#/$defs/anyValue"
         },
         "$gte": {
-          "$ref": "#/$defs/value"
+          "$ref": "#/$defs/anyValue"
         },
         "$in": {
           "$ref": "#/$defs/array"
         },
         "$lt": {
-          "$ref": "#/$defs/value"
+          "$ref": "#/$defs/anyValue"
         },
         "$lte": {
-          "$ref": "#/$defs/value"
+          "$ref": "#/$defs/anyValue"
         },
         "$ne": {
-          "$ref": "#/$defs/value"
+          "$ref": "#/$defs/anyValue"
         },
         "$nin": {
           "$ref": "#/$defs/array"
         },
         "$and": {
-          "$ref": "#/$defs/queryOperatorFieldsOrArrayOrPrimitive"
+          "$ref": "#/$defs/queryOperatorFieldsOrArrayOrAnyPrimitive"
         },
         "$not": {
           "$ref": "#/$defs/queryOperatorField"
         },
         "$nor": {
-          "$ref": "#/$defs/queryOperatorFieldsOrArrayOrPrimitive"
+          "$ref": "#/$defs/queryOperatorFieldsOrArrayOrAnyPrimitive"
         },
         "$or": {
-          "$ref": "#/$defs/queryOperatorFieldsOrArrayOrPrimitive"
+          "$ref": "#/$defs/queryOperatorFieldsOrArrayOrAnyPrimitive"
         },
         "$exists": {
           "type": "boolean"
@@ -196,7 +196,7 @@
         "$all": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/value"
+            "$ref": "#/$defs/anyValue"
           }
         },
         "$elemMatch": {
@@ -234,7 +234,7 @@
                 "type": ["string", "number", "boolean", "null"]
               },
               "then": {
-                "$ref": "#/$defs/primitive"
+                "$ref": "#/$defs/anyPrimitive"
               }
             }
           ]

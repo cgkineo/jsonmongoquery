@@ -99,7 +99,9 @@ A subset of BSON Types https://www.mongodb.com/docs/manual/reference/bson-types/
 
 ### Notes
 1. Lexicographic vs numeric order is not currently supported https://www.mongodb.com/docs/manual/reference/operator/update/#behavior
-2. 100% test coverage from the examples for each supported operator for each supported type
+2. 100% unit test coverage, from the mongodb website examples, for each supported operator, for each supported type
+3. Query intellisense support using typescript types
+4. Query schemas and validation supplied 
 
 ### Unsupported operators
 #### [Evaluation query operators](https://www.mongodb.com/docs/manual/reference/operator/query-evaluation/)
