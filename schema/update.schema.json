@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/oliverfoster/jsonmongoquery/master/schema/update.schema.json",
+  "$id": "https://raw.githubusercontent.com/cgkineo/jsonmongoquery/master/schema/update.schema.json",
   "title": "Update",
   "description": "An object with update operators",
   "type": "object",
