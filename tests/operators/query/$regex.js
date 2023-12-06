@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate } from 'jsonmongoquery'
 
 const data = [
   { _id: 1, company: 'MongoDB' },

@@ -1,4 +1,4 @@
-import copy from 'json-mongo-query/lib/copy.js'
+import copy from 'jsonmongoquery/lib/copy.js'
 
 test('copy object, array', () => {
   const original = {

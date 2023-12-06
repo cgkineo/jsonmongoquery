@@ -1,4 +1,4 @@
-import { queryToPredicate } from 'json-mongo-query'
+import { queryToPredicate } from 'jsonmongoquery'
 
 const data1 = [
   { _id: 1, item: { name: 'ab', code: '123' }, qty: 15, tags: ['A', 'B', 'C'] },

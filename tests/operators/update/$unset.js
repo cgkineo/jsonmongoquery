@@ -1,4 +1,4 @@
-import { queryToPredicate, updateToPredicate } from 'json-mongo-query'
+import { queryToPredicate, updateToPredicate } from 'jsonmongoquery'
 
 const data1 = [
   { item: 'chisel', sku: 'C001', quantity: 4, instock: true, ratings: [{ by: 'Customer007', rating: 4 }] },
