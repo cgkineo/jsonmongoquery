@@ -2,6 +2,40 @@
 
 Mongodb query and update operators for json object arrays.
 
+### Usage
+```js
+import { queryToPredicate, updateToPredicate, context } from 'jsonmongoquery'
+
+// Fix current date in a context
+const context = new Context({ date: new Date() })
+
+// Load some data
+const data = [
+  { _id: 1, item: { name: 'ab', code: '123' }, qty: 15, tags: ['A', 'B', 'C'] },
+  { _id: 2, item: { name: 'cd', code: '123' }, qty: 20, tags: ['B'] },
+  { _id: 3, item: { name: 'ij', code: '456' }, qty: 25, tags: ['A', 'B'] },
+  { _id: 4, item: { name: 'xy', code: '456' }, qty: 30, tags: ['B', 'A'] },
+  { _id: 5, item: { name: 'mn', code: '000' }, qty: 20, tags: [['A', 'B'], 'C'] }
+]
+
+// Query will select items where qty = 20, validate the query according to the query schema
+const filterQuery = { qty: { $eq: 20 } }
+// Make an filter predicate function from the filter query
+const filterPredicate = queryToPredicate(filterQuery, { validate: true, context })
+// Filter the data according to the predicate
+const filtered = data.filter(filterPredicate)
+console.log(filtered)
+
+// Query will remove the last item from the tags array, validate the query according to the update schema
+const updateQuery = { $pop: { tags: 1 } }
+// Make an update predicate function from the update query
+const updatePredicate = updateToPredicate(, { validate: true, context })
+// Filter the data according to the predicate
+const updated = filtered.filter(updatePredicate)
+console.log(updated)
+
+```
+
 ### Supported operators
 #### [Comparison query operators](https://www.mongodb.com/docs/manual/reference/operator/query-comparison/)
 * [$eq](https://www.mongodb.com/docs/manual/reference/operator/query/eq/) `{ field: { $eq: value } }`, `{ field: value }` Matches documents where the value of a field equals the specified value
