@@ -97,8 +97,9 @@ A subset of BSON Types https://www.mongodb.com/docs/manual/reference/bson-types/
 | bool | 8 | 8 |
 
 
-### Not implemented
+### Notes
 1. Lexicographic vs numeric order is not currently supported https://www.mongodb.com/docs/manual/reference/operator/update/#behavior
+2. 100% test coverage from the examples for each supported operator for each supported type
 
 ### Unsupported operators
 #### [Evaluation query operators](https://www.mongodb.com/docs/manual/reference/operator/query-evaluation/)
