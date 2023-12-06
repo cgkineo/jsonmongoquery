@@ -11,17 +11,13 @@ export namespace JMQ {
 
   export type AnyValue = Document | Array | AnyPrimitive;
 
-  export type TypeValue = 'number' |
-    1 | 'double' |
+  export type TypeValue = 1 | 'number' |
     2 | 'string' |
     3 | 'object' |
     4 | 'array' |
     6 | 'undefined' |
-    8 | 'boolean' | 'bool' |
-    10 | 'null' |
-    16 | 'int' |
-    18 | 'long' |
-    19 | 'decimal';
+    8 | 'bool' |
+    10 | 'null';
     export type TypeValueOrValues = TypeValue | [TypeValue];
 
     export type QueryOperator = {
