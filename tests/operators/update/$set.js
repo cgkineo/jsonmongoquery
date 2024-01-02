@@ -179,3 +179,13 @@ test('$set create dot notation missed shallow property', () => {
   const updated = data.filter(updater)
   expect(updated).toHaveLength(2)
 })
+
+test('$set $where on nested property', () => {
+  const data = clone(data2)
+  const updater = updateToPredicate({
+    $where: "this.details.make = this.details.make?.replace(/Corp/g, 'Borp'); return true;"
+  })
+  const updated = data.filter(updater)
+  expect(updated).toHaveLength(3)
+  expect(updated[0].details.make).toBe('Clothes Borp')
+})
