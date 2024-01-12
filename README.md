@@ -102,6 +102,7 @@ A subset of BSON Types https://www.mongodb.com/docs/manual/reference/bson-types/
 2. 100% unit test coverage, from the mongodb website examples, for each supported operator, for each supported type
 3. Query intellisense support using typescript types
 4. Query schemas and validation supplied 
+5. `$where` can be used as an update operator, `$where: "this.title = this.title?.replace(/1 to 5/g, '1 to 10'); return true;"`
 
 ### Unsupported operators
 #### [Evaluation query operators](https://www.mongodb.com/docs/manual/reference/operator/query-evaluation/)

@@ -46,10 +46,13 @@
     },
     "$unset": {
       "$ref": "#/$defs/stringField"
+    },
+    "$where": {
+      "type": "string"
     }
   },
   "propertyNames": {
-    "pattern": "(^[$](addToSet|currentDate|inc|max|min|mul|pop|pull|pullAll|push|rename|set|sort|unset)+)|(^[^$].*)"
+    "pattern": "(^[$](addToSet|currentDate|inc|max|min|mul|pop|pull|pullAll|push|rename|set|sort|unset|where)+)|(^[^$].*)"
   },
   "additionalProperties": false,
   "$defs": {
